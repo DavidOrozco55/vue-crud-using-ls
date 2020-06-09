@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue LocalStorage CRUD</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./faws/css/all.min.css">
+</head>
+<body class="light">
+
+    <div id="app">
+        <div class="themeToggler">
+            <i 
+                class='fas' 
+                :class="themeClass" 
+                @click='toggleTheme()'
+                title='Cambiar tema de colores'>
+            </i>
+        </div>
+
+        <div class="content">
+
+
+            <div class="form-container">
+                <h1>Agregar tarea</h1>
+                <div class="form">
+                    <input type="text" class="form-input" placeholder="Nombre de la actividad" v-model="newTask.name">
+    
+    
+    
+                    <div class="timeDiv">
+                        <div class="hourDiv">
+                            <input min='0' max='3' type="number" class="form-input" v-model.number='newTask.hours'>
+                            <p>Horas</p>
+                        </div>
+        
+                        <div class="minuteDiv">
+                            <input  min='0' max='59' type="number" class="form-input" v-model.number='newTask.minutes'>
+                            <p>Minutos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="errors" v-if="errors.length != 0">
+                        <p class="error" v-for='error in errors'>
+                            {{error}}
+                        </p>
+                    </div>
+    
+                    <button class="form-input" @click="addTask">Guardar</button>
+                </div>
+    
+            </div>
+    
+            <div class="activities">
+                <h1>Lista de tareas diarias</h1>
+                <div class="activity" v-for='task in tasks'>
+                    <p class="activity-name">{{task.name}}</p>
+                    <p>Duración: {{task.hours}}:{{task.minutes}}</p>
+                    <button class="edit" @click="editTask(task.name)">Editar</button>
+                    <button class="delete" @click="deleteTask(task.name)">Eliminar</button>
+                </div>
+                <p 
+                    v-if='getTotalTime.totalHours === 0 && getTotalTime.totalMinutes === 0'
+                >
+                    No tienes tareas actualmente 🙁
+                </p>
+               <p v-else>Total de tiempo en tareas {{getTotalTime.totalHours}} horas con {{getTotalTime.totalMinutes}} minutos</p>
+            </div>
+    
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
